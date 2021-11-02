@@ -1,0 +1,78 @@
+@model Hospital.Models.Turno
+
+@{
+    ViewBag.Title = "Asignacion de turnos";
+}
+
+<div class="row">
+    <div class="col s6">
+        <label asp-for="IdMedico">Medico</label>
+        <select asp-for="IdMedico" asp-items="ViewBag.IdMedico"></select>
+    </div>
+    <div class="col s6">
+        <label asp-for="IdPaciente">Paciente</label>
+        <select asp-for="IdPaciente" asp-items="ViewBag.IdPaciente"></select>
+    </div>
+</div>
+<br>
+<div id="CalendarioTurnos"></div>
+
+<link href="~/fullcalendar/fullcalendar.css" rel="stylesheet" />
+<link href="~/fullcalendar/fullcalendar.print.css" media="print" />
+@section Scripts{
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="~/fullcalendar/fullcalendar.min.js"></script>
+<script src="~/fullcalendar/locale/es.js"></script>
+<script>
+    $(document).ready(function () {
+        var horarioDesde = "";
+        var horarioHasta = "";
+
+        $.ajax({
+            type: "GET",
+            url: "medico/TraerHorarioAtencionDesde",
+            data: { "idMedico": $('#IdMedico').val() },
+            async: false,
+            success: function (resultado) {
+                horarioDesde = resultado;
+            },
+            error: function () {
+                alert("error al traer el horario de atencion desde del medico");
+            }
+
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "medico/TraerHorarioAtencionHasta",
+            data: { "idMedico": $('#IdMedico').val() },
+            async: false,
+            success: function (resultado) {
+                horarioDesde = resultado;
+            },
+            error: function () {
+                alert("error al traer el horario de atencion hasta del medico");
+            }
+
+        });
+        $('#CalendarioTurnos').fullCalendar({
+            contentHeight: 'auto',
+            defaultDate: new Date(),
+            slotLabelFormat: "HH:mm",
+            defaulView: 'agendaWeek',
+            nowIndicator: true,
+            allDaySlot: false,
+            selecttable: true,
+            eventLimit: true,
+            minTime: horarioDesde,
+            maxTime: horarioHasta,
+            header: {
+                left: 'prev,next today',
+                right: 'month,agendaWeek,agendaDay',
+            },
+            sloDuration: '00:30',
+
+        })
+    })
+</script>
+}

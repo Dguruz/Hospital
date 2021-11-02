@@ -1,0 +1,18 @@
+@model Hospital.Models.Especialidad
+<h4>especialidad</h4>
+<div>
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div>
+            <label asp-for="Descripccion"></label>
+            <input asp-for="Descripccion" />
+            <span asp-validation-for="Descripccion"></span>
+        </div>
+        <div>
+            <input type="submit" value="Grabar" />
+        </div>
+    </form>
+</div>
+<div>
+    <a asp-action="Index">Volver</a>
+</div>

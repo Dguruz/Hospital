@@ -1,0 +1,19 @@
+@model Hospital.Models.Especialidad
+<h3>seguro elimar registro?</h3>
+<div>
+    <dl>
+        <dt>
+            @Html.DisplayNameFor( titulo=>titulo.Descripccion)
+        </dt>
+        <dd>
+            @Html.DisplayFor( data=>data.Descripccion)
+        </dd>
+    </dl>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="IdEspecialidad" />
+        <input type="submit" value="eliminar" />
+    </form>
+    <div>
+        <a asp-action="Index">Volver</a>
+    </div>
+</div>
